@@ -1,0 +1,11 @@
+<!doctype html>
+<p>{{ roundnr }}</p>
+<p>{{ current_stack_flask }}</p>
+<p>{{ cow_flask }}</p>
+<p>{{ question_flask }}</p>
+
+    <form action="{{ convnumb }}" method="POST">
+    <span STYLE="background-color:#00eaff; font-size: 20px" >You:</span>
+        <input type="text" placeholder="Type a message..." name="question" autocomplete="off" autofocus="autofocus" maxlength="100" class="resizedTextbox"><br>
+        <input type="submit" name="my-form" value="Send">
+    </form>
