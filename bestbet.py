@@ -3,37 +3,42 @@ app = Flask(__name__)
 app.secret_key = 'to_be_changed'
 import numpy as np
 
+def luck_of_the_draw():
+    multiplier = 0
+    while multiplier < 1:
+        #setting the expected value with a normal distribution (cant be less than 0)
+        expected_value = 0
+        while expected_value <= 0:
+            mu = 1 #mean
+            sigma = 0.4 #stdev
+            expected_value = np.random.normal(mu, sigma)
+
+        #setting the chance of winning with a normal distribution (float between 0 and 1)
+        chance_of_winning = 0
+        while chance_of_winning <= 0 or chance_of_winning >= 1:
+            mu = 0.5 #mean
+            sigma = 0.3 #stdev
+            chance_of_winning = np.random.normal(mu, sigma)
+
+        #calculating the multiplier (cant be less than 1 -- fixed by a while loop at the beginning)
+        multiplier = (expected_value / chance_of_winning)
+        multiplier = float(multiplier)
+        multiplier = round(multiplier,1)
+
+    chance_of_losing = 1 - chance_of_winning
+    outcome = np.random.choice([True, False], p=[chance_of_winning, chance_of_losing])
+    outcome = bool(outcome)
+    
+    return(expected_value, multiplier, chance_of_winning, outcome)
+
 @app.route("/")
 def welcome():
 	starting_stack = 10000
 	current_stack = starting_stack
 	roundi = 1
 	
-	multiplier = 0
-	while multiplier < 1:
-		#setting the expected value with a normal distribution (cant be less than 0)
-		expected_value = 0
-		while expected_value <= 0:
-			mu = 1 #mean
-			sigma = 0.4 #stdev
-			expected_value = np.random.normal(mu, sigma)
-
-		#setting the chance of winning with a normal distribution (float between 0 and 1)
-		chance_of_winning = 0
-		while chance_of_winning <= 0 or chance_of_winning >= 1:
-			mu = 0.5 #mean
-			sigma = 0.3 #stdev
-			chance_of_winning = np.random.normal(mu, sigma)
-
-		#calculating the multiplier (cant be less than 1 -- fixed by a while loop at the beginning)
-		multiplier = (expected_value / chance_of_winning)
-		multiplier = float(multiplier)
-		multiplier = round(multiplier,1)
-
 	#draw
-	chance_of_losing = 1 - chance_of_winning
-	outcome = np.random.choice([True, False], p=[chance_of_winning, chance_of_losing])
-	outcome = bool(outcome)
+	expected_value, multiplier, chance_of_winning, outcome = luck_of_the_draw()
 
 	#passing values
 	session["roundi"] = roundi
@@ -95,31 +100,8 @@ def game():
 			message = 'Yay, you won!'
 			color_code = 'green'
 
-		multiplier = 0
-		while multiplier < 1:
-			#setting the expected value with a normal distribution (cant be less than 0)
-			expected_value = 0
-			while expected_value <= 0:
-				mu = 1 #mean
-				sigma = 0.4 #stdev
-				expected_value = np.random.normal(mu, sigma)
-
-			#setting the chance of winning with a normal distribution (float between 0 and 1)
-			chance_of_winning = 0
-			while chance_of_winning <= 0 or chance_of_winning >= 1:
-				mu = 0.5 #mean
-				sigma = 0.3 #stdev
-				chance_of_winning = np.random.normal(mu, sigma)
-
-			#calculating the multiplier (cant be less than 1 -- fixed by a while loop at the beginning)
-			multiplier = (expected_value / chance_of_winning)
-			multiplier = float(multiplier)
-			multiplier = round(multiplier,1)
-
-		#draw
-		chance_of_losing = 1 - chance_of_winning
-		outcome = np.random.choice([True, False], p=[chance_of_winning, chance_of_losing])
-		outcome = bool(outcome)
+	#draw
+		expected_value, multiplier, chance_of_winning, outcome = luck_of_the_draw()
 
 	#passing values
 	session["roundi"] = roundi
