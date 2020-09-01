@@ -1,21 +1,19 @@
 from flask import Flask, render_template, request, session
 app = Flask(__name__)
 app.secret_key = 'to_be_changed'
-
 import numpy as np
-from scipy.stats import skewnorm
 
 @app.route("/")
-def hi():
+def welcome():
 	starting_stack = 10000
 	current_stack = starting_stack
 	roundi = 1
 	
 	multiplier = 0
-	while multiplier > 1:
+	while multiplier < 1:
 		#setting the expected value with a normal distribution (cant be less than 0)
 		expected_value = 0
-		while expected_value < 0:
+		while expected_value <= 0:
 			mu = 1 #mean
 			sigma = 0.4 #stdev
 			expected_value = np.random.normal(mu, sigma)
@@ -58,7 +56,7 @@ def hi():
 		multiplier_flask=multiplier_flask)
 
 @app.route("/", methods=['POST'])
-def hi2():
+def game():
 	roundi = session["roundi"]
 	multiplier = session["multiplier"]
 	current_stack = session["current_stack"]
@@ -77,10 +75,10 @@ def hi2():
 		message = 'WRONG INPUT, MATE!'
 		color_code = 'red'
 	elif risked_money > current_stack:
-		message = "YOU DONT HAVE THAT MUCH MONEY, MATE!"
+		message = "YOU DONT HAVE THAT MUCH MONEY, DUDE!"
 		color_code = 'red'
 	elif risked_money < 0:
-		message = "YOU CANT RISK NEGATIVE MONEY, MATE"
+		message = "YOU CANT RISK NEGATIVE MONEY, MAN"
 		color_code = 'red'
 	else:
 		roundi = roundi + 1
@@ -98,10 +96,10 @@ def hi2():
 			color_code = 'green'
 
 		multiplier = 0
-		while multiplier > 1:
+		while multiplier < 1:
 			#setting the expected value with a normal distribution (cant be less than 0)
 			expected_value = 0
-			while expected_value < 0:
+			while expected_value <= 0:
 				mu = 1 #mean
 				sigma = 0.4 #stdev
 				expected_value = np.random.normal(mu, sigma)
