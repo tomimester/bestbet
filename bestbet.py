@@ -10,26 +10,32 @@ def hi():
 	starting_stack = 10000
 	current_stack = starting_stack
 	roundi = 1
-
-	#random
+	
 	multiplier = 0
-	while multiplier < 1:
-		multiplier = skewnorm.rvs(10, 0.2, 1.3)
-		multiplier = round(multiplier,1)
+	while multiplier > 1:
+		#setting the expected value with a normal distribution (cant be less than 0)
+		expected_value = 0
+		while expected_value < 0:
+			mu = 1 #mean
+			sigma = 0.4 #stdev
+			expected_value = np.random.normal(mu, sigma)
 
-	chance_of_winning = 0
-	while chance_of_winning <= 0 or chance_of_winning >= 1:
-		mu = 0.47 #mean
-		sigma = 0.16#stddev
-		chance_of_winning = np.random.normal(mu, sigma)
+		#setting the chance of winning with a normal distribution (float between 0 and 1)
+		chance_of_winning = 0
+		while chance_of_winning <= 0 or chance_of_winning >= 1:
+			mu = 0.5 #mean
+			sigma = 0.3 #stdev
+			chance_of_winning = np.random.normal(mu, sigma)
+
+		#calculating the multiplier (cant be less than 1 -- fixed by a while loop at the beginning)
+		multiplier = (expected_value / chance_of_winning)
+		multiplier = float(multiplier)
+		multiplier = round(multiplier,1)
 
 	#draw
 	chance_of_losing = 1 - chance_of_winning
 	outcome = np.random.choice([True, False], p=[chance_of_winning, chance_of_losing])
 	outcome = bool(outcome)
-		
-	#expected_value
-	expected_value = chance_of_winning * multiplier
 
 	#passing values
 	session["roundi"] = roundi
@@ -39,13 +45,17 @@ def hi():
 	session["chance_of_winning"] = chance_of_winning
 
 	#print
-	roundnr = 'ROUND #'+ str(roundi)
-	cow = "{:.0f}".format(chance_of_winning * 100)+'%'
-	current_stack_flask = 'You have ' + str(current_stack) + ' money!'
-	cow_flask = 'You have ' + str(cow) + ' chance to ' + str(multiplier) + '* your money!'
-	question_flask = 'How much of your money are you willing to risk?'
+	roundnr = str(roundi)
+	cow = "{:.0f}".format(chance_of_winning * 100)
+	current_stack_flask = str(current_stack)
+	cow_flask = str(cow)
+	multiplier_flask = str(multiplier)
 
-	return render_template('test.html', roundnr=roundnr, current_stack_flask=current_stack_flask, cow_flask=cow_flask, question_flask=question_flask)
+	return render_template('test.html', 
+		roundnr=roundnr, 
+		current_stack_flask=current_stack_flask, 
+		cow_flask=cow_flask, 
+		multiplier_flask=multiplier_flask)
 
 @app.route("/", methods=['POST'])
 def hi2():
@@ -65,10 +75,13 @@ def hi2():
 
 	if wrong_input == True:
 		message = 'WRONG INPUT, MATE!'
+		color_code = 'red'
 	elif risked_money > current_stack:
 		message = "YOU DONT HAVE THAT MUCH MONEY, MATE!"
+		color_code = 'red'
 	elif risked_money < 0:
 		message = "YOU CANT RISK NEGATIVE MONEY, MATE"
+		color_code = 'red'
 	else:
 		roundi = roundi + 1
 		risked_money = int(risked_money)
@@ -78,31 +91,37 @@ def hi2():
 		result = int(result)
 		current_stack = current_stack + result
 		if result == 0:
-			message = 'woops, you lost, you have this much money left: '
+			message = 'Woops, you lost!'
+			color_code = 'red'
 		else:
-			message = 'yay, you won, now you have this much money: '
+			message = 'Yay, you won!'
+			color_code = 'green'
 
-	#	return(message + str(current_stack))
-
-		#random
 		multiplier = 0
-		while multiplier < 1:
-			multiplier = skewnorm.rvs(10, 0.2, 1.3)
-			multiplier = round(multiplier,1)
+		while multiplier > 1:
+			#setting the expected value with a normal distribution (cant be less than 0)
+			expected_value = 0
+			while expected_value < 0:
+				mu = 1 #mean
+				sigma = 0.4 #stdev
+				expected_value = np.random.normal(mu, sigma)
 
-		chance_of_winning = 0
-		while chance_of_winning <= 0 or chance_of_winning >= 1:
-			mu = 0.47 #mean
-			sigma = 0.16#stddev
-			chance_of_winning = np.random.normal(mu, sigma)
+			#setting the chance of winning with a normal distribution (float between 0 and 1)
+			chance_of_winning = 0
+			while chance_of_winning <= 0 or chance_of_winning >= 1:
+				mu = 0.5 #mean
+				sigma = 0.3 #stdev
+				chance_of_winning = np.random.normal(mu, sigma)
+
+			#calculating the multiplier (cant be less than 1 -- fixed by a while loop at the beginning)
+			multiplier = (expected_value / chance_of_winning)
+			multiplier = float(multiplier)
+			multiplier = round(multiplier,1)
 
 		#draw
 		chance_of_losing = 1 - chance_of_winning
 		outcome = np.random.choice([True, False], p=[chance_of_winning, chance_of_losing])
 		outcome = bool(outcome)
-			
-		#expected_value
-		expected_value = chance_of_winning * multiplier
 
 	#passing values
 	session["roundi"] = roundi
@@ -111,14 +130,19 @@ def hi2():
 	session["outcome"] = outcome
 
 	#print
-	roundnr = 'ROUND #'+ str(roundi)
-	cow = "{:.0f}".format(chance_of_winning * 100)+'%'
-	current_stack_flask = 'You have ' + str(current_stack) + ' money!'
-	cow_flask = 'You have ' + str(cow) + ' chance to ' + str(multiplier) + '* your money!'
-	question_flask = 'How much of your money are you willing to risk?'
-
+	roundnr = str(roundi)
+	cow = "{:.0f}".format(chance_of_winning * 100)
+	current_stack_flask = str(current_stack)
+	cow_flask = str(cow)
+	multiplier_flask = str(multiplier)
 	message_flask = str(message)
-	return render_template('test.html', message_flask=message_flask, roundnr=roundnr, current_stack_flask=current_stack_flask, cow_flask=cow_flask, question_flask=question_flask)
+	return render_template('test.html',
+		message_flask=message_flask, 
+		roundnr=roundnr, 
+		current_stack_flask=current_stack_flask, 
+		cow_flask=cow_flask, 
+		multiplier_flask=multiplier_flask, 
+		color_code=color_code)
 
 
 if __name__ == "__main__":
