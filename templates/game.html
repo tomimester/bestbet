@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Best Bet | Expected Value Game</title>
+  <meta name="description" content="Best Bet | Expected Value Game">
+  <meta name="author" content="Tomi Mester @Data36.com">
+  <meta name="session_id" content="{{session_id}}">
+  <meta name="log_info" content="{{log_info}}">
+
+<style>
+body {
+    text-align: center;
+    font-size: 1.3em;
+    font-family: monospace;
+}
+
+h1   {background-color: #D3D3D3;
+font-size: 1.5em;
+}
+
+h2   {background-color: #20D181;
+font-size: 2em;
+}
+
+</style>
+
+</head>
+<body>
+<h1>MESSAGE:</h1>
+<p style="color: {{ color_code }}">{{ message_flask }}</p>
+<p><b>Your current stack: {{ current_stack_flask }}</b></p>
+<h2>ROUND #{{ roundnr }}</h2>
+<p>The new challenge:</p>
+<p>You have a {{ cow_flask }}% probability to {{ multiplier_flask }}* your money!</p>
+<p>How much of your money are you willing to risk?</p>
+
+<form method="POST">
+    <input name="text">
+    <input type="submit">
+</form>
+</body>
+</html>

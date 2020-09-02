@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Best Bet | Expected Value Game</title>
+  <meta name="description" content="Best Bet | Expected Value Game">
+  <meta name="author" content="Tomi Mester @Data36.com">
+  <meta name="session_id" content="{{session_id}}">
+  <meta name="log_info" content="{{log_info}}">
+
+<style>
+body {
+    text-align: center;
+    font-size: 1.3em;
+    font-family: monospace;
+}
+
+h1   {background-color: #D3D3D3;
+font-size: 1.5em;
+}
+
+h2   {background-color: #20D181;
+font-size: 2em;
+}
+
+table {
+  border-collapse: collapse;
+  width: 80%;
+  margin: 0% 10% 0% 10%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+</style>
+
+</head>
+<body>
+<h1><u>Bottom line</u></h1>
+<p><b>Your result: {{ current_stack_flask }}</b></p>
+<p><b>With this result, you are #162 out of 2385 total players, so far.</b></p>
+<p><b>The highets score is 31245, right now.</b></p>
+<h2>Analysis. Review your game!</h2>
+<p>How could you've done better? Check out this article, this video and this podcast episode to learn more about expected value</p>
+
+<table>
+  <tr>
+    <th>round</th>
+    <th>risked</th>
+    <th>won</th>
+    <th>result</th>
+    <th>multiplier</th>
+    <th>chance to win</th>
+    <th>expected value</th>
+    <th>did you win</th>
+    <th>new stack</th>
+
+</tr>
+{% for round in log_info %}
+  <tr>
+    <td>{{round[0]}}</td>
+    <td>{{round[1]}}</td>
+    <td>{{round[6]}}</td>
+    <td>{{round[6]-round[1]}}</td>
+    <td>{{round[3]}}</td>
+    <td>{{round[4]}}%</td>
+    <td>{{round[2]}}</td>
+    <td>{{round[5]}}</td>
+    <td>{{round[7]}}</td>
+  </tr>
+{% endfor %}
+</table>
+
+</body>
+</html>
