@@ -3,6 +3,7 @@ app = Flask(__name__)
 app.secret_key = 'to_be_changed'
 import numpy as np
 import random
+import json
 
 def luck_of_the_draw():
     multiplier = 0
@@ -132,7 +133,7 @@ def game():
 	session["outcome"] = outcome
 	session["log_info"] = log_info
 
-	if roundi > 10:
+	if roundi > 50:
 		return redirect("/result/", code=302)
 
 	#print
@@ -163,12 +164,44 @@ def result():
 	outcome = session["outcome"]
 	log_info = session["log_info"]
 
+	#opening the json file that contains results from other players
+	with open('/home/tomi/bestbet/results/result.json') as json_file:
+		results = json.load(json_file)
+
+	#adding the new value to the list
+	results[session_id] = current_stack
+
+	#saving it to the json file
+	with open('/home/tomi/bestbet/results/result.json', 'w') as outfile:
+		json.dump(results, outfile)
+
+	#calculating stats
+	all_values = results.values()
+
+	#calculating the highest score
+	highest_score = max(all_values)
+	
+	#calculating the number of all players
+	all_players = len(all_values)
+
+	#place of the given player in the list
+	place = 1
+	for i in all_values:
+		if i > current_stack:
+			place = place + 1
+
 	current_stack_flask = str(current_stack)
+	highest_score_flask = str(highest_score)
+	all_players_flask = str(all_players)
+	place_flask = str(place)
 
 	return render_template('result.html',
 		current_stack_flask=current_stack_flask, 
 		session_id=session_id,
-		log_info=log_info)
+		log_info=log_info,
+		highest_score_flask=highest_score_flask,
+		all_players_flask=all_players_flask,
+		place_flask=place_flask)
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0')

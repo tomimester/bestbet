@@ -42,35 +42,63 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 <body>
 <h1><u>Bottom line</u></h1>
 <p><b>Your result: {{ current_stack_flask }}</b></p>
-<p><b>With this result, you are #162 out of 2385 total players, so far.</b></p>
-<p><b>The highets score is 31245, right now.</b></p>
+<p><b>With this result, you are #{{place_flask}} out of {{ all_players_flask }} total players, so far.</b></p>
+<p><b>The highets score is {{ highest_score_flask }}, right now.</b></p>
 <h2>Analysis. Review your game!</h2>
-<p>How could you've done better? Check out this article, this video and this podcast episode to learn more about expected value</p>
+<p>How could you've done better? Check out this article, this video and this podcast episode to learn more about expected value. Generally speaking, a good (promising) bet is usually a bet where the expected value is greater than 1 -- a bad (less promising) bet is where it's less than 1.</p>
 
 <table>
-  <tr>
-    <th>round</th>
-    <th>risked</th>
-    <th>won</th>
-    <th>result</th>
+  <tr bgcolor="#B4B4B4">
+    <th bgcolor="#B4B4B4">round</th>
     <th>multiplier</th>
     <th>chance to win</th>
     <th>expected value</th>
+    <th>risked</th>
     <th>did you win</th>
+    <th>won</th>
+    <th>result</th>
     <th>new stack</th>
 
 </tr>
 {% for round in log_info %}
   <tr>
-    <td>{{round[0]}}</td>
-    <td>{{round[1]}}</td>
-    <td>{{round[6]}}</td>
-    <td>{{round[6]-round[1]}}</td>
+    <td bgcolor="#B4B4B4"><b><u>{{round[0]}}</u></b></td>
     <td>{{round[3]}}</td>
     <td>{{round[4]}}%</td>
-    <td>{{round[2]}}</td>
-    <td>{{round[5]}}</td>
-    <td>{{round[7]}}</td>
+    <td
+        bgcolor="
+        {% if round[2]|float > 1 %}
+        #B6F2C8
+        {% elif round[2]|float == 1 %}
+        #F2F2F2
+        {% else %}
+        #F2C3C3
+        {% endif %}
+        "
+    >
+        {{round[2]}}</td>
+    <td>{{round[1]}}</td>
+    <td
+        bgcolor="
+        {% if round[5] == True %}
+        #B6F2C8
+        {% else %}
+        #F2C3C3
+        {% endif %}
+        "
+    >{{round[5]}}</td>
+    <td>{{round[6]}}</td>
+    <td
+        bgcolor="
+        {% if round[5] == True %}
+        #B6F2C8
+        {% else %}
+        #F2C3C3
+        {% endif %}
+        "
+    >{{round[6]-round[1]}}</td>
+
+    <td><b>{{round[7]}}</b></td>
   </tr>
 {% endfor %}
 </table>
