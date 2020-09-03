@@ -11,22 +11,29 @@
 <style>
 body {
     text-align: center;
-    font-size: 1.3em;
     font-family: monospace;
+    margin:0;
 }
 
-h1   {background-color: #D3D3D3;
-font-size: 1.5em;
+p {font-size: 1.7em;
+width: 80%;
+margin: 1% auto 1% auto;}
+
+h1   {background-color: #20D181;
+font-size: 3em;
+padding:0em
+margin:0em;
 }
 
-h2   {background-color: #20D181;
+h2   {background-color: #D3D3D3;
 font-size: 2em;
 }
 
 table {
+  font-size: 1.7em;
   border-collapse: collapse;
   width: 80%;
-  margin: 0% 10% 0% 10%;
+  margin: 0% auto 0% auto;
 }
 
 th, td {
@@ -34,19 +41,39 @@ th, td {
   padding: 8px;
 }
 
+hr {width: 30%;}
+
 tr:nth-child(even) {background-color: #f2f2f2;}
+
+@media screen and (max-width:992px) {
+  body {font-size: 1.8em;}
+  p {font-size: 1.8em;
+    width: 95%;
+    margin: 1% auto 5% auto;}
+
+    h1   {font-size: 3.5em;
+  }
+
+  h2   {font-size: 2.5em;
+  }
+  table {
+      width: 100%;
+      margin: 0%;
+      font-size: 1em;
+  }  
+  }
 
 </style>
 
 </head>
 <body>
 <h1><u>Bottom line</u></h1>
-<p><b>Your result: {{ current_stack_flask }}</b></p>
-<p><b>With this result, you are #{{place_flask}} out of {{ all_players_flask }} total players, so far.</b></p>
-<p><b>The highets score is {{ highest_score_flask }}, right now.</b></p>
+<p>Your result: <b>{{ current_stack_flask }}</b></p>
+<p>With this result, you are <b>#{{place_flask}}</b> out of <b>{{ all_players_flask }}</b> total players, so far.</p>
+<p>The highets score is <b>{{ highest_score_flask }}</b>, right now.</p>
 <h2>Analysis. Review your game!</h2>
-<p>How could you've done better? Check out this article, this video and this podcast episode to learn more about expected value. Generally speaking, a good (promising) bet is usually a bet where the expected value is greater than 1 -- a bad (less promising) bet is where it's less than 1.</p>
-
+<p><i>How could you've done better?</i></p>
+<p><i>Review your game and then check <a href="#hint">the hints</a> at the bottom of this page!</i></p><br>
 <table>
   <tr bgcolor="#B4B4B4">
     <th bgcolor="#B4B4B4">round</th>
@@ -63,7 +90,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 {% for round in log_info %}
   <tr>
     <td bgcolor="#B4B4B4"><b><u>{{round[0]}}</u></b></td>
-    <td>{{round[3]}}</td>
+    <td>{{round[3]}}*</td>
     <td>{{round[4]}}%</td>
     <td
         bgcolor="
@@ -102,6 +129,24 @@ tr:nth-child(even) {background-color: #f2f2f2;}
   </tr>
 {% endfor %}
 </table>
+
+<h2 id="hint">Hint: mind expected value!</h2>
+<i><p>Generally speaking, a good promising bet is usually a bet where the expected value is greater than 1. And a bad one is where it's less than 1. </p> 
+  <p>Of course, you can't avoid chance and natural variance. But on the long-term, you'll win if you invest into positive expected value opportunities.</p>
+  <p>Check out <a href="https://www.w3schools.com/">this article</a>, <a href="https://www.w3schools.com/">this video</a> and <a href="https://www.w3schools.com/">this podcast episode</a> to learn more about expected value.</p></i>
+
+<h2>Tutorial article about expected value</h2>
+<iframe width="80%" height="auto" src="https://anchor.fm/data-science-podcast/embed/episodes/What-is-Data-Science-ehdqgb" frameborder="0" scrolling="no"></iframe>
+
+<h2>Podcast about expected value</h2>
+<iframe width="80%" height="auto" src="https://anchor.fm/data-science-podcast/embed/episodes/What-is-Data-Science-ehdqgb" frameborder="0" scrolling="no"></iframe>
+
+<h2>Video about expected value</h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/O0q083X1fWo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<br><br><br><br><br><hr>
+<p style="font-size: 1em"><i>Note: This is a <a href="https://data36.com">Data36</a> project. If you are wondering, I don't collect any personal data about you.</i>✌</p><hr>
+<br><br>
 
 </body>
 </html>

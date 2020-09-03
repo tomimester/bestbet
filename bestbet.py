@@ -133,7 +133,7 @@ def game():
 	session["outcome"] = outcome
 	session["log_info"] = log_info
 
-	if roundi > 50:
+	if roundi > 10:
 		return redirect("/result/", code=302)
 
 	#print

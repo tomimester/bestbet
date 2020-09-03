@@ -11,20 +11,42 @@
 <style>
 body {
     text-align: center;
-    font-size: 1.3em;
     font-family: monospace;
+        margin:0;
+
 }
+
+p {font-size: 1.7em;
+width: 80%;
+margin: 1% 10% 1% 10%;}
 
 h1   {background-color: #D3D3D3;
-font-size: 1.5em;
-}
-
-h2   {background-color: #20D181;
 font-size: 2em;
 }
 
-</style>
+h2   {background-color: #20D181;
+font-size: 2.5em;
+}
 
+input {margin: 3% 0% 0% 0%;
+  font-size: 1.5em;}
+
+.bottom_message {font-size: 0.5em;
+  position: fixed;
+  bottom: 3%;
+  width: 50%;
+  margin: 0 25% 0 25%;}
+
+@media screen and (max-width:992px) {
+  body {font-size: 2.5em;}
+  p {width: 95%;
+    margin: 1% 2.5% 1% 2.5%;}
+  input {width: 90%;}
+  .bottom_message {font-size: 0.25em;}
+
+  }  
+  }
+</style>
 </head>
 <body>
 <h1>MESSAGE:</h1>
@@ -36,8 +58,12 @@ font-size: 2em;
 <p>How much of your money are you willing to risk?</p>
 
 <form method="POST">
-    <input name="text">
+    <input autocomplete="off" autofocus="autofocus" name="text">
     <input type="submit">
+
+<div class="bottom_message">
+<p><i>Note: This is a <a href="https://data36.com">Data36</a> project. If you are wondering, I don't collect any personal data about you.</i>✌</p></div>
+
 </form>
 </body>
 </html>
