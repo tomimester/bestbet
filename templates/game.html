@@ -3,10 +3,20 @@
 <head>
   <meta charset="utf-8">
   <title>Best Bet | Expected Value Game</title>
-  <meta name="description" content="Best Bet | Expected Value Game">
+  <meta name="description" content="This is a game just like in casinos. You have a 10,000 unit starting stack and your goal is to win as much as you can. (Well, of course this is just play money.)">
   <meta name="author" content="Tomi Mester @Data36.com">
   <meta name="session_id" content="{{session_id}}">
   <meta name="log_info" content="{{log_info}}">
+  <meta property="og:image" content="{{ url_for('static', filename='expected_value_game.png') }}">
+  <link rel="icon" href="{{ url_for('static', filename='favico.png') }}">
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="Best Bet | Expected Value Game" />
+<meta name="twitter:creator" content="Tomi Mester @Data36.com" />
+<meta property="og:url" content="https://bestbet.data36.com" />
+<meta property="og:title" content="Best Bet | Expected Value Game" />
+<meta property="og:description" content="This is a game just like in casinos. You have a 10,000 unit starting stack and your goal is to win as much as you can. (Well, of course this is just play money.)" />
+<meta property="twitter:image" content="https://bestbet.data36.com/static/expected_value_game.png" />
 
 <style>
 body {
@@ -38,9 +48,9 @@ input {margin: 3% 0% 0% 0%;
   margin: 0 25% 0 25%;}
 
 @media screen and (max-width:992px) {
-  body {font-size: 2.5em;}
+  body {font-size: 2em;}
   p {width: 95%;
-    margin: 1% 2.5% 1% 2.5%;}
+    margin: 1em 2.5% 1em 2.5%;}
   input {width: 90%;}
   .bottom_message {font-size: 0.25em;}
 
@@ -51,15 +61,15 @@ input {margin: 3% 0% 0% 0%;
 <body>
 <h1>MESSAGE:</h1>
 <p style="color: {{ color_code }}">{{ message_flask }}</p>
-<p><b>Your current stack: {{ current_stack_flask }}</b></p>
+<p><b>Your current stack: {{ current_stack_flask }} units</b></p>
 <h2>ROUND #{{ roundnr }}</h2>
-<p>The new challenge:</p>
-<p>You have a {{ cow_flask }}% probability to {{ multiplier_flask }}* your money!</p>
-<p>How much of your money are you willing to risk?</p>
+<p>The deal:</p>
+<p>You have a <b>{{ cow_flask }}%</b> probability to <b>{{ multiplier_flask }}x your bet</b> -- and a {{ col_flask }}% probability to lose it all.</b></p>
+<p>How much of your play money are you willing to risk? (It can be anything between 0 to {{ current_stack_flask }}.)</p>
 
 <form method="POST">
     <input autocomplete="off" autofocus="autofocus" name="text">
-    <input type="submit">
+    <input type="submit" value="Submit!">
 
 <div class="bottom_message">
 <p><i>Note: This is a <a href="https://data36.com">Data36</a> project. If you are wondering, I don't collect any personal data about you.</i>✌</p></div>

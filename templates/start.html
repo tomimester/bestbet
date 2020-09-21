@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Best Bet | Expected Value Game</title>
+  <meta name="description" content="This is a game just like in casinos. You have a 10,000 unit starting stack and your goal is to win as much as you can. (Well, of course this is just play money.)">
+  <meta name="author" content="Tomi Mester @Data36.com">
+  <meta name="session_id" content="{{session_id}}">
+  <meta name="log_info" content="{{log_info}}">
+  <meta property="og:image" content="{{ url_for('static', filename='expected_value_game.png') }}">
+  <link rel="icon" href="{{ url_for('static', filename='favico.png') }}">
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="Best Bet | Expected Value Game" />
+<meta name="twitter:creator" content="Tomi Mester @Data36.com" />
+<meta property="og:url" content="https://bestbet.data36.com" />
+<meta property="og:title" content="Best Bet | Expected Value Game" />
+<meta property="og:description" content="This is a game just like in casinos. You have a 10,000 unit starting stack and your goal is to win as much as you can. (Well, of course this is just play money.)" />
+<meta property="twitter:image" content="https://bestbet.data36.com/static/expected_value_game.png" />
+
+<style>
+body {
+    text-align: center;
+    font-family: monospace;
+        margin:0;
+
+}
+
+p {font-size: 1.7em;
+width: 80%;
+margin: 1% 10% 1% 10%;}
+
+ul {font-size: 1.7em;
+width: 80%;
+margin: 1% 10% 1% 10%;
+text-align: left;
+border-style: dotted;
+border-color: #147D4E}
+
+
+li {margin: 0.7em 10% 0.7em 10%;}
+
+h1   {background-color: #D3D3D3;
+font-size: 2em;
+}
+
+h2   {background-color: #20D181;
+font-size: 2.5em;
+}
+
+input {margin: 3% 0% 0% 0%;
+  font-size: 2.5em;
+width: 40%;
+height: 3em;
+font-family: monospace;
+font-weight: 800}
+
+.bottom_message {font-size: 0.5em;
+  width: 50%;
+  margin: 0 25% 0 25%;}
+
+@media screen and (max-width:992px) {
+  body {font-size: 1.8em;}
+  p {font-size: 1.8em;
+    width: 95%;
+    margin: 1% auto 5% auto;}
+
+    h1   {font-size: 3.5em;
+  }
+
+  h2   {font-size: 2.5em;
+  }
+  table {
+      width: 100%;
+      margin: 0%;
+      font-size: 1em;
+  }  
+ input {width: 90%;}
+
+  }
+
+
+</style>
+</head>
+<body>
+<h1>MESSAGE:</h1>
+<p>This is a game just like in casinos. You have a <b><i>10,000</i></b> unit starting stack and your goal is to win as much as you can. (Well, of course this is just play money.)</p>
+<h2>RULES:</h2>
+<ul>
+  <li>The game has 50 rounds.</li>
+  <li>In each round, you'll get a deal. Some deals are better, some are worse.</li>
+  <li>You can decide how much of your play money you risk. It can be 0. It can be all your money. Or anything between.</li>
+  <li>The goal again is to win as much as you can in 50 rounds.</li>
+</ul>  
+<br>
+<p>At the end of the 50 rounds, you'll be able to review your decisions and see how you did compared to other players.</p>
+<p><b>The current highest score is: {{highest_score}}. Can you beat it?</b></p>
+
+<form action="/game">
+    <input type="submit" value="Let's play!" />
+</form> 
+
+<br><br>
+<p><i>Hint: to win this game, you have to understand the concept of <b>expected value</b>. Check out <a href="https://data36.com/expected-value-formula/">this article</a>, <a href="https://www.youtube.com/watch?v=MkfPALtnDG8">this video</a> and <a href="https://anchor.fm/data-science-podcast/episodes/Why-You-Shouldnt-Go-to-Casinos----3-Statistical-Concepts-eju3im">this podcast episode</a> to learn more about expected value.</i></p>
+
+<br><br><br><br><br><hr>
+<p style="font-size: 1em"><i>Note: This is a <a href="https://data36.com">Data36</a> project. If you are wondering, I don't collect any personal data about you.</i>✌</p><hr>
+<br><br>
+
+</form>
+</body>
+</html>

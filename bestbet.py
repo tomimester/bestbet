@@ -34,7 +34,23 @@ def luck_of_the_draw():
     return(expected_value, multiplier, chance_of_winning, outcome)
 
 @app.route("/")
-def welcome():
+def rules():
+
+	#opening the json file that contains results from other players
+	with open('/home/tomi/bestbet/results/result.json') as json_file:
+		results = json.load(json_file)
+
+	#calculating stats
+	all_values = results.values()
+
+	#calculating the highest score
+	highest_score = max(all_values)
+
+	return render_template('start.html', highest_score=highest_score)
+
+
+@app.route("/game/")
+def game():
 	session_id = random.randint(100000000000000,(1000000000000000-1))
 	starting_stack = 10000
 	current_stack = starting_stack
@@ -57,8 +73,10 @@ def welcome():
 	#print
 	roundnr = str(roundi)
 	cow = "{:.0f}".format(chance_of_winning * 100)
+	col = "{:.0f}".format(100 - chance_of_winning * 100)
 	current_stack_flask = str(current_stack)
 	cow_flask = str(cow)
+	col_flask = str(col)
 	multiplier_flask = str(multiplier)
 
 	return render_template('game.html', 
@@ -67,10 +85,11 @@ def welcome():
 		cow_flask=cow_flask, 
 		multiplier_flask=multiplier_flask,
 		session_id=session_id,
-		log_info=log_info)
+		log_info=log_info,
+		col_flask=col_flask)
 
-@app.route("/", methods=['POST'])
-def game():
+@app.route("/game/", methods=['POST'])
+def game_next():
 	session_id = session["session_id"]
 	current_stack = session["current_stack"]
 	roundi = session["roundi"]
@@ -92,10 +111,10 @@ def game():
 		message = 'WRONG INPUT, MATE!'
 		color_code = 'red'
 	elif risked_money > current_stack:
-		message = "YOU DONT HAVE THAT MUCH MONEY, DUDE!"
+		message = "YOU DON'T HAVE THAT MUCH MONEY, DUDE!"
 		color_code = 'red'
 	elif risked_money < 0:
-		message = "YOU CANT RISK NEGATIVE MONEY, MAN"
+		message = "YOU CAN'T RISK NEGATIVE MONEY, YO!"
 		color_code = 'red'
 	else:
 		risked_money = int(risked_money)
@@ -108,7 +127,7 @@ def game():
 			message = "You didn't risk anything."
 			color_code = 'grey'
 		elif result == 0:
-			message = 'Woops, you lost!'
+			message = 'Whoops, you lost!'
 			color_code = 'red'
 		else:
 			message = 'Yay, you won!'
@@ -133,14 +152,16 @@ def game():
 	session["outcome"] = outcome
 	session["log_info"] = log_info
 
-	if roundi > 10:
+	if roundi > 50:
 		return redirect("/result/", code=302)
 
 	#print
 	roundnr = str(roundi)
 	cow = "{:.0f}".format(chance_of_winning * 100)
+	col = "{:.0f}".format(100 - chance_of_winning * 100)
 	current_stack_flask = str(current_stack)
 	cow_flask = str(cow)
+	col_flask = str(col)
 	multiplier_flask = str(multiplier)
 	message_flask = str(message)
 	return render_template('game.html',
@@ -151,7 +172,8 @@ def game():
 		multiplier_flask=multiplier_flask, 
 		color_code=color_code,
 		session_id=session_id,
-		log_info=log_info)
+		log_info=log_info,
+		col_flask=col_flask)
 
 @app.route("/result/")
 def result():
@@ -163,6 +185,11 @@ def result():
 	multiplier = session["multiplier"]
 	outcome = session["outcome"]
 	log_info = session["log_info"]
+
+	full_path = "/home/tomi/bestbet/game_log/" + str(session_id)
+	log_plus = open(full_path, 'a+')
+	log_plus.write(str(log_info))
+	log_plus.close()
 
 	#opening the json file that contains results from other players
 	with open('/home/tomi/bestbet/results/result.json') as json_file:
